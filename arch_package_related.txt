@@ -1,0 +1,154 @@
+Improve download and database access speed
+Ranking your mirrorlist
+Adding a number to -f/--fasttrack command will return a number of up-to-date and responsive mirrors
+
+ 			sudo pacman-mirrors --fasttrack 5 && sudo pacman -Syyu
+
+Optimize the database access speed
+If you have a spinning disk drive (not an SSD!), run this command after syncing the database.
+
+				pacman-optimize && sync
+
+Syncing and Updating
+Commands for syncronising database
+					pacman -Sy
+
+You can force sync the database using the following command. It means, the database will be synced even if it's up to date. This is useful when you changed something repository related and want to have the changes take effect.
+					pacman -Syy
+
+Commands for updating the system
+Never use this command as it might result in partial updates:
+
+					pacman -Su
+
+The recommended way is to syncronize your repo databases first and the update:
+
+					pacman -Syu
+
+If you have used pacman-mirrors to recreate the mirror list you must download the databases and the update:
+
+					pacman -Syyu
+
+Update & ignore a package It should not be necessary to use exclusion of packages. Such an exclusion might be the cause of the infamous partial updates.
+
+The following changes take place in pacman's configuration file: /etc/pacman.conf
+				IgnorePkg=package_name
+				Update & ignore a package group
+
+				IgnoreGroup=package_group
+Examples:
+				IgnoreGroup=gnome
+				IgnoreGroup=kde
+Installing Packages
+Install a package
+
+				pacman -Syu package_name
+
+If for example you are using the testing repo, & you have that repo listed below your other repos in /etc/pacman.conf which should mean that an older package will take priority over the younger one in the testing repo, you should use pacman like this:
+pacman -Syu testing/package_name
+
+Install packages as a group
+
+				pacman -Syu gnome
+				pacman -Syu kde
+
+Download a package without installation
+
+				pacman -Sw package_name
+
+Install a downloaded or a local package
+
+			pacman -U /package_path/package_name.pkg.tar.xz
+
+You can also use the URL:
+		pacman -U http://www.examplepackage/repo/examplepkg.tar.xz
+
+Reinstall all packages
+
+				pacman -Syu $(pacman -Qqen)
+
+To search which packages has been installed in a group
+
+					pacman -Sg gnome
+					pacman -Sg kde
+
+Get a full package list with versions. This will create a file called pacman.laptop in your home folder.
+
+pacman -Q > ~/pacman.laptop
+Removing Packages
+Remove a package
+
+					pacman -R package_name
+
+Remove a package with dependencies that are not being used by other packages
+
+					pacman -Rs package_name
+
+Remove a package with all dependencies. Attention: The -c flag can remove needed dependencies, too. Only for advanced users.
+
+					pacman -Rsc package_name
+Remove a package and its configuration files too:
+					pacman -Rn package_name
+Forcefully remove a dependency without removing any other package. Attention: Only for advanced users.
+
+					pacman -Rdd package_name
+
+Cleaning Packages
+See Maintaining /var/cache/pacman/pkg for System Safety for an in depth view on this topic.
+
+
+
+Cleaning the cache
+
+Leaves packages in your cache only for those packages which are currently installed on your system. Attention: This eliminates the possibility to Using Downgrade.
+					pacman -Sc
+Clean cache completely and remove all packages. Attention: This eliminates the possibility to Using Downgrade.
+					pacman -Scc
+A safer way to remove old package cache files is to remove all packages except for the latest three package versions:
+					paccache -rvk3
+
+Cleaning orphan packages from the system. Also read Orphan Package Removal for further information.
+
+				pacman -Rsn $(pacman -Qdtq)
+
+If you get this error, don't worry: it means you don't have orphaned packages to remove!
+
+error: no targets specified (use -h for help)
+Searching for Packages
+Provides a description of searched for package & associated packages
+
+				pacman -Ss package_name
+
+Provides a description of previously installed package
+
+				pacman -Qs package_name
+
+Provides detailed summary of a package
+
+				pacman -Si package_name
+
+Modified summary:
+				pacman -Qi package_name
+
+with 'ii' you can see the backup files and the date that the package has been changed.
+				pacman -Qii package_name
+
+Get a list of installed packages
+
+				pacman -Q
+Find out which package owns a file
+
+				pacman -Qo /file_path
+
+List all orphan packages with no dependencies
+
+				pacman -Qdt
+
+List all installed packages from the AUR
+
+				pacman -Qem
+View package dependencies. Use one of the following commands:
+
+				pactree package_name
+				pactree -c package_name
+				pactree -s -c package_name

@@ -1,0 +1,33 @@
+
+pacman -Syu	= is equivalent to apt-get update && apt-get upgrade
+pacman -S <package>	= is apt-get install <package>
+
+========== Laravel =============
+
+* migrate problem solution:
+	mv /usr/bin/php /usr/bin/php.old
+	ln -s /opt/lampp/bin/php /usr/bin/php
+or, 
+	sudo /opt/lampp/bin/php artisan migrate
+
+* change port 80 to 8081
+
+
+=========== Kernel Module =========
+* After updating kernel version in boot (ctl+alt+f2)
+ 	pacman -S dkms linux418
+	dkms autoinstall -k 4.18.6-1-MANJARO
+	pacman -Syu
+	pacman -Syyu
+
+======= Hack Internet Speed ========
+Installation:
+'yaourt aria2 --noconfirm'
+select aria2 fast and hit enter
+Usage:
+* Go to the desired download directory and open terminal with the download link of a file
+'aria2c -x 6 paste_download_link'
+
+
+====================================
+
